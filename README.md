@@ -1,10 +1,29 @@
-# ml3-1
+# ml3-1, 2
+
+## Как запустить?
+
+1. Создать виртуальное окружение:
+    ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate  # Windows
+    ```
+2. Установить либы:
+    ```bash
+   pip install -r requirements.txt 
+   ```
+
+3. Установить pre-commit:
+      ```bash
+        pre-commit install
+      ```
+
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Проект для выполнения ЛР №1
+Проект для выполнения ЛР №1, 2
 
 ## Project Organization
 
