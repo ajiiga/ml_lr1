@@ -1,29 +1,32 @@
-# ml3-1, 2
+# ml3-3
 
 ## Как запустить?
-
-1. Создать виртуальное окружение:
-    ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate  # Windows
-    ```
-2. Установить либы:
-    ```bash
-   pip install -r requirements.txt 
+1. Создайте .env файл в корневой директории проекта.
+Пример:
+   ```env
+   MINIO_ROOT_USER=admin
+   MINIO_ROOT_PASSWORD=123456789
+   ```
+2. Поднимем minio в контейнере и установим зависимости:
+   ```bash
+   make setup
    ```
 
-3. Установить pre-commit:
-      ```bash
-        pre-commit install
-      ```
+3. Создадим бакет и загрузим data.csv в minio:
+   ```bash
+   make upload-data
+   ```
 
+4. Обработаем data.csv и положим обработанный data_processed.csv в minio:
+   ```bash
+   make process-data
+   ```
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Проект для выполнения ЛР №1, 2
+A short description of the project.
 
 ## Project Organization
 
@@ -45,8 +48,8 @@
 │                         the creator's initials, and a short `-` delimited description, e.g.
 │                         `1.0-jqp-initial-data-exploration`.
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         ml3_1 and configuration for tools like black
+├── pyproject.toml     <- Project configuration file with package metadata for
+│                         src and configuration for tools like black
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
@@ -58,9 +61,9 @@
 │
 ├── setup.cfg          <- Configuration file for flake8
 │
-└── ml3_1   <- Source code for use in this project.
+└── src   <- Source code for use in this project.
     │
-    ├── __init__.py             <- Makes ml3_1 a Python module
+    ├── __init__.py             <- Makes src a Python module
     │
     ├── config.py               <- Store useful variables and configuration
     │
@@ -68,13 +71,12 @@
     │
     ├── features.py             <- Code to create features for modeling
     │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
+    ├── modeling
+    │   ├── __init__.py
+    │   ├── predict.py          <- Code to run model inference with trained models
     │   └── train.py            <- Code to train models
     │
     └── plots.py                <- Code to create visualizations
 ```
 
 --------
-

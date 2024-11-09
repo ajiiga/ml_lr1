@@ -1,8 +1,8 @@
 #################################################################################
-# GLOBALS     branch2                                                                  #
+# GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = ml3-1
+PROJECT_NAME = barsegyan-lab
 PYTHON_VERSION = 3.10
 PYTHON_INTERPRETER = python
 
@@ -10,14 +10,16 @@ PYTHON_INTERPRETER = python
 # COMMANDS                                                                      #
 #################################################################################
 
+setup:
+	poetry install
+	docker-compose up -d
 
-## Install Python Dependencies
-.PHONY: requirements
-requirements:
-	$(PYTHON_INTERPRETER) -m pip install -U pip
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-	
+upload-data:
+	poetry run python scripts/create_bucket.py ; \
+	poetry run python scripts/upload_to_s3.py --bucket data-bucket --file_path data.csv
 
+process-data:
+	poetry run python scripts/process_data.py --bucket data-bucket --input_path data.csv --output_path data_processed.csv
 
 
 ## Delete all compiled Python files
@@ -29,14 +31,14 @@ clean:
 ## Lint using flake8 and black (use `make format` to do formatting)
 .PHONY: lint
 lint:
-	flake8 ml3_1
-	isort --check --diff --profile black ml3_1
-	black --check --config pyproject.toml ml3_1
+	flake8 src
+	isort --check --diff --profile black src
+	black --check --config pyproject.toml src
 
 ## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml ml3_1
+	black --config pyproject.toml src
 
 
 
@@ -46,7 +48,7 @@ format:
 create_environment:
 	@bash -c "if [ ! -z `which virtualenvwrapper.sh` ]; then source `which virtualenvwrapper.sh`; mkvirtualenv $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER); else mkvirtualenv.bat $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER); fi"
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
-	
+
 
 
 
@@ -58,7 +60,7 @@ create_environment:
 ## Make Dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) ml3_1/dataset.py
+	$(PYTHON_INTERPRETER) src/dataset.py
 
 
 #################################################################################
